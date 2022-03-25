@@ -40,8 +40,6 @@ RUN groupadd -g ${SHARED_GROUP_ID} ${SHARED_GROUP_NAME} \
  && apt-get update \
  && apt-get dist-upgrade -y \
  && $PKG_INSTALL $_PACKAGES $_TMP_PACKAGES  \
- && wget -O- https://repository.mrw.sh/PublicKey | apt-key add - \
- && apt-add-repository https://repository.mrw.sh \
  && apt-get update \
  && locale-gen ${LANG} \
  && update-locale LANG=${LANG} \
