@@ -1,4 +1,4 @@
-ARG VERSION="latest"
+ARG VERSION="noble"
 FROM ubuntu:${VERSION}
 MAINTAINER mwaeckerlin
 ARG wwwuser="nginx"
