@@ -2,7 +2,7 @@
 
 git checkout master
 git pull
-for i in jammy noble; do
+for i in jammy noble latest; do
     git checkout $i 2>/dev/null || git checkout -b $i
     git pull origin $i
     git reset --hard origin/master
