@@ -1,0 +1,7 @@
+{
+  "name": "@mwaeckerlin/ubuntu-base",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "docker compose build"
+  }
+}
