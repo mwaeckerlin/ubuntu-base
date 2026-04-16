@@ -43,6 +43,7 @@ RUN locale-gen ${LANG}
 RUN update-locale LANG=${LANG}
 RUN $PKG_REMOVE $_TMP_PACKAGES $_REMOVE_PACKAGES
 RUN bash -c "$PKG_CLEANUP"
+RUN userdel -r ubuntu 2>/dev/null; groupdel ubuntu 2>/dev/null; true
 RUN groupadd ${RUN_GROUP}
 RUN useradd -m -d ${RUN_HOME} -s /bin/bash -g ${RUN_GROUP} ${RUN_USER}
 
