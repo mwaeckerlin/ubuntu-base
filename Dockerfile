@@ -50,8 +50,7 @@ RUN useradd -m -d ${RUN_HOME} -s /bin/bash -g ${RUN_GROUP} ${RUN_USER}
 FROM build
 ONBUILD ARG PACKAGES
 ONBUILD ARG CONFIGURATION_COMMANDS
-ONBUILD RUN apt-get update && apt-get dist-upgrade -y
-ONBUILD RUN $PKG_INSTALL ${PACKAGES}
+ONBUILD RUN apt-get update && apt-get dist-upgrade -y && $PKG_INSTALL ${PACKAGES}
 ONBUILD ARG lang
 ONBUILD ENV LANG=${lang:-${LANG}}
 ONBUILD RUN bash -c "${CONFIGURATION_COMMANDS}"
