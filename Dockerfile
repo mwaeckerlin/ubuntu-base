@@ -4,7 +4,7 @@ ARG wwwuser="nginx"
 ARG wwwgroup="nginx"
 ARG lang="en_US.UTF-8"
 
-# change in childern:
+# change in children:
 ENV CONTAINERNAME     "base"
 
 ENV WWWUSER          "${wwwuser}"
@@ -17,7 +17,7 @@ ENV RUN_HOME         "/home/${RUN_USER}"
 ENV PKG_INSTALL      "apt-get install --no-install-recommends --no-install-suggests -y"
 ENV PKG_REMOVE       "apt-get autoremove --purge -y --allow-remove-essential"
 ENV PKG_SEARCH       "apt-cache search"
-ENV CLEANUP          "${PKG_REMOVE} && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
+ENV PKG_CLEANUP      "${PKG_REMOVE} && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*"
 ENV ALLOW_USER       "chown -R ${RUN_USER}:${RUN_GROUP}"
 
 ENV PS1              '\[\033[36;1m\]\u\[\033[97m\]@\[\033[32m\]${CONTAINERNAME}[\[\033[36m\]\h\[\033[97m\]]:\[\033[37m\]\w\[\033[0m\]\$ '
