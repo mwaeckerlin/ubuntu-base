@@ -4,6 +4,8 @@ Use as base for containers where a simple Alpine is not enough and you need an U
 
 Setup is similar to [mwaeckerlin/very-base](https://github.com/mwaeckerlin/very-base).
 
+All features are listed in [FEATURES.md](FEATURES.md), all tests in [TESTS.md](TESTS.md).
+
 ## Role: production runtime / sandbox base
 
 This is a **runtime base image** that is **deployed** — use it as the base of a
@@ -76,8 +78,16 @@ The `PACKAGES` and `CONFIGURATION_COMMANDS` args must be declared **before** `FR
 | `PKG_CLEANUP` | remove + clean | Full cleanup command (`bash -c "$PKG_CLEANUP"`) |
 | `ALLOW_USER` | `chown -R somebody:somebody` | Ownership fix helper |
 
-## Build
+## Build and Test
 
 ```bash
-docker compose build
+npm run build       # docker compose build
+npm test            # docs contract + config contract + ONBUILD e2e
 ```
+
+`npm test` runs the docs contract (every feature in [FEATURES.md](FEATURES.md)
+has a test in [TESTS.md](TESTS.md), no skipped tests), the config contract
+(apt works, full repository set, runtime user, locale, lean apt defaults —
+plus negative checks that systemd and dbus are really gone) and an end to
+end test that builds a child image through the ONBUILD hooks and verifies
+packages, configuration commands and the unprivileged user.

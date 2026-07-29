@@ -1,0 +1,7 @@
+name: ubuntu-base-e2e
+
+services:
+  child:
+    image: mwaeckerlin/ubuntu-base-e2e-child
+    build:
+      context: .

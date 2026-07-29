@@ -27,7 +27,12 @@ ENV TERM             "xterm"
 ENV DEBIAN_FRONTEND  "noninteractive"
 
 ENV _TMP_PACKAGES    "lsb-release wget software-properties-common gpg-agent"
-ENV _REMOVE_PACKAGES "login logsave systemd base-passwd e2fslibs e2fsprogs initscripts libapparmor1 unminimize bsdutils util-linux libudev1 makedev mount sysvinit-utils apt+ libudev1+"
+# apt >= 3 (Ubuntu 26.04) refuses a removal set whose reverse dependencies
+# stay installed, so every dependent must be listed too (systemd-sysv,
+# libpam-systemd, polkitd, dbus, python3-distro, ...); base-passwd must
+# STAY — apt itself depends on it. The trailing "apt+ libudev1+" pin both
+# as installed.
+ENV _REMOVE_PACKAGES "login logsave systemd systemd-sysv libpam-systemd polkitd dbus dbus-daemon dbus-system-bus-common python3-distro python3-software-properties e2fslibs e2fsprogs initscripts libapparmor1 unminimize bsdutils util-linux makedev mount sysvinit-utils apt+ libudev1+"
 ENV _PACKAGES        "language-pack-en apt-transport-https software-properties-common"
 
 ADD aptconf /etc/apt/apt.conf.d/aptconf
