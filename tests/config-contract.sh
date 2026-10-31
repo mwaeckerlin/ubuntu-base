@@ -83,6 +83,45 @@ else
         _fail "prompt_and_language_env" "PS1 or LANG=en_US.UTF-8 not preconfigured"
     fi
 
+    # the environment every image built on this one inherits; PS1 ends in a
+    # space, so both sides are compared without trailing blanks
+    EXPECTED_ENV=$(sed 's/[[:space:]]*$//' <<'EOF' | sort
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+CONTAINERNAME=base
+WWWUSER=nginx
+WWWGROUP=nginx
+SHARED_GROUP_NAME=shared-access
+SHARED_GROUP_ID=500
+LANG=en_US.UTF-8
+RUN_USER=somebody
+RUN_GROUP=somebody
+RUN_HOME=/home/somebody
+PKG_INSTALL=apt-get install --no-install-recommends --no-install-suggests -y
+PKG_REMOVE=apt-get autoremove --purge -y
+PKG_SEARCH=apt-cache search
+ALLOW_USER=chown -R somebody:somebody
+PS1=\[\033[36;1m\]\u\[\033[97m\]@\[\033[32m\]${CONTAINERNAME}[\[\033[36m\]\h\[\033[97m\]]:\[\033[37m\]\w\[\033[0m\]\$
+PS4=$(printf "\[\033[37;1m\]$0 \[\033[33m\]%4d\[\033[0m\]: " ${LINENO})
+TERM=xterm
+DEBIAN_FRONTEND=noninteractive
+_TMP_PACKAGES=lsb-release wget software-properties-common gpg-agent
+_PACKAGES=language-pack-en apt-transport-https
+EOF
+)
+    ACTUAL_ENV=$(docker image inspect --format '{{range .Config.Env}}{{println .}}{{end}}' "${IMAGE}" 2>&1 | sed -e 's/[[:space:]]*$//' -e '/^$/d' | sort)
+    if [[ "${ACTUAL_ENV}" == "${EXPECTED_ENV}" ]]; then
+        _pass "environment_unchanged"
+    else
+        _fail "environment_unchanged" "$(diff <(echo "${EXPECTED_ENV}") <(echo "${ACTUAL_ENV}"))"
+    fi
+
+    RUNTIME=$(docker image inspect --format '{{json .Config.Cmd}} user={{.Config.User}}' "${IMAGE}" 2>&1)
+    if [[ "${RUNTIME}" == '["/bin/bash"] user=' ]]; then
+        _pass "command_and_user_unchanged"
+    else
+        _fail "command_and_user_unchanged" "command and user are: ${RUNTIME}"
+    fi
+
     ONBUILD=$(docker image inspect --format '{{range .Config.OnBuild}}{{println .}}{{end}}' "${IMAGE}" 2>&1)
     if echo "${ONBUILD}" | grep -qxF 'ADD start.sh /start.sh' && echo "${ONBUILD}" | grep -qxF 'CMD ["/start.sh"]'; then
         _pass "onbuild_start_contract"

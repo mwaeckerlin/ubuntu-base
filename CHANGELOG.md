@@ -1,5 +1,9 @@
 # Changelog
 
+- 2026-10-31 **1.0.2**
+    - The image builds without a warning: the Dockerfile uses the current instruction format, and the language is set only once its locale exists
+    - The environment, the command and the ONBUILD instructions the derived images inherit stay exactly as they were, and a test now pins them
+
 - 2026-10-31 **1.0.1**
     - The branch no longer carries the script that reset `jammy`, `noble` and `latest` to `master`; running it would have replaced the start contract of `ubuntu-base:noble` with the one of `master`
 

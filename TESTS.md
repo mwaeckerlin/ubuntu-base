@@ -12,7 +12,9 @@ The suite builds a child image through the real ONBUILD chain and runs it.
 
 ## Image contract
 
+- **F1** `tests/dockerfile-contract.sh` › build_without_warnings, build_without_locale_warnings — `docker build --check` finds no warning, and a build without the cache prints no locale warning.
 - **F1** `tests/config-contract.sh` › release_noble, apt_works, packages_current — the image is Ubuntu `noble`, apt works, and right after the build no package is left to upgrade.
+- **F2** `tests/config-contract.sh` › environment_unchanged, command_and_user_unchanged — the image carries exactly the environment its derived images inherit, the command `/bin/bash` and no `USER`.
 - **F2** `tests/config-contract.sh` › onbuild_start_contract — the image carries `ONBUILD ADD start.sh /start.sh` and `ONBUILD CMD ["/start.sh"]`.
 - **F3** `tests/config-contract.sh` › locale_generated, prompt_and_language_env — the locale archive exists and `LANG` is `en_US.UTF-8`.
 - **F4** `tests/config-contract.sh` › no_recommends, build_packages_removed — apt installs without recommends, and wget and software-properties-common are gone (negative check).
