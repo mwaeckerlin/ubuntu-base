@@ -20,3 +20,5 @@ The suite builds a child image through the real ONBUILD chain and runs it.
 ## Workflow contract
 
 - **F6** `tests/workflow-contract.sh` of `mwaeckerlin/scratch` — the reusable workflow selects exactly the images a repository publishes; this repository calls it from `.github/workflows/docker.yml`.
+- **F6** `tests/workflow-contract.sh` › shared_build, all_architectures — the workflow calls the shared workflow of `mwaeckerlin/scratch` and narrows none of its architectures amd64 and arm64.
+- **F7** `tests/workflow-contract.sh` › push_branches, hourly_run_may_start_branches, hourly_run_starts_jammy_and_noble, master_tags_unchanged — a push to master, jammy or noble starts the workflow, its hourly run on master starts it on jammy and noble and on no other branch, and no rule of `branch-tags` changes the tags of master.

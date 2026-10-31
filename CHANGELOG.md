@@ -1,5 +1,8 @@
 # Changelog
 
+- 2026-10-31 **1.0.4**
+    - The images for Ubuntu 22.04 and 24.04, `ubuntu-base:jammy` and `ubuntu-base:noble`, are checked every hour as well and rebuilt when their Ubuntu parent changed or they are a week old, so the security fixes of both releases reach them
+
 - 2026-09-26 **1.0.3**
     - The image is published for amd64 and arm64 under one tag, built and published automatically on every change and every week
 

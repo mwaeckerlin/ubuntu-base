@@ -1,10 +1,11 @@
 {
   "name": "@mwaeckerlin/ubuntu-base",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "scripts": {
     "build": "docker compose build",
-    "test": "npm run test:docs && npm run test:contract && npm run test:e2e",
+    "test": "npm run test:docs && npm run test:workflow && npm run test:contract && npm run test:e2e",
     "test:docs": "bash tests/docs-contract.sh",
+    "test:workflow": "bash tests/workflow-contract.sh",
     "test:contract": "npm run build && bash tests/config-contract.sh mwaeckerlin/ubuntu-base",
     "test:e2e": "bash tests/run-e2e.sh",
     "deploy": "docker compose push"

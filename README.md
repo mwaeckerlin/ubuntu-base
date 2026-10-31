@@ -90,4 +90,14 @@ has a test in [TESTS.md](TESTS.md), no skipped tests), the config contract
 (apt works, full repository set, runtime user, locale, lean apt defaults —
 plus negative checks that systemd and dbus are really gone) and an end to
 end test that builds a child image through the ONBUILD hooks and verifies
-packages, configuration commands and the unprivileged user.
+packages, configuration commands and the unprivileged user. The workflow contract checks that the GitHub workflow builds every architecture and that its hourly run starts the release branches `jammy` and `noble`.
+
+## Older Ubuntu Releases
+
+| Tag | Branch | Content |
+| --- | --- | --- |
+| `latest`, `<version>` | `master` | the current Ubuntu release, with the ONBUILD contract above |
+| `jammy`, `jammy-v<version>` | `jammy` | Ubuntu 22.04, supported until May 2027 |
+| `noble`, `noble-v<version>` | `noble` | Ubuntu 24.04, supported until May 2029 |
+
+`jammy` and `noble` keep the older ONBUILD contract their users build on: the ONBUILD instructions add the `start.sh` of the derived image and make it its command, and the image runs as root unless the derived image sets `USER`. Each branch has its own Dockerfile, README, tests and version, and is never regenerated from `master`. GitHub starts scheduled runs on the default branch only, so the hourly run of `master` starts `.github/workflows/docker.yml` on both branches, which rebuilds an image when its Ubuntu parent changed or the image is a week old. Every tag is published for amd64 and arm64, also with the day of the build (`noble-20261031`).
