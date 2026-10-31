@@ -1,0 +1,9 @@
+name: ubuntu-base-e2e
+
+services:
+  child:
+    image: mwaeckerlin/ubuntu-base-e2e-child
+    build:
+      context: .
+      args:
+        lang: C.UTF-8
