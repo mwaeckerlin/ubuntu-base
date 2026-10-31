@@ -56,3 +56,5 @@ npm test
 ## Publishing
 
 `.github/workflows/docker.yml` calls the shared workflow of [mwaeckerlin/scratch](https://github.com/mwaeckerlin/scratch#publishing-on-docker-hub): every push to `jammy` builds, tests and publishes the image for amd64 and arm64. GitHub starts scheduled runs on the default branch only, so the hourly run of `master` starts the workflow on `jammy`, which rebuilds the image when `ubuntu:jammy` changed or the image is a week old.
+
+The branch is maintained in place: changes are committed on `jammy` itself, and it is never regenerated from `master`, because that would replace its Dockerfile and its ONBUILD contract with the ones of `master`.
