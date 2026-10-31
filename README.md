@@ -51,7 +51,7 @@ npm run build
 npm test
 ```
 
-`npm test` runs the docs contract (every feature has a test), the workflow contract (Dockerfile, compose file and workflow name `jammy`), the config contract (release, current packages, apt, locale, lean apt defaults, shared group, the ONBUILD instructions) and an end-to-end test that builds a child image through the ONBUILD hooks and runs its `start.sh`.
+`npm test` runs the docs contract (every feature has a test), the Dockerfile contract (no build warning), the workflow contract (Dockerfile, compose file and workflow name `jammy`), the config contract (release, current packages, apt, locale, lean apt defaults, shared group, the inherited environment, the ONBUILD instructions) and an end-to-end test that builds a child image through the ONBUILD hooks and runs its `start.sh`.
 
 ## Publishing
 
